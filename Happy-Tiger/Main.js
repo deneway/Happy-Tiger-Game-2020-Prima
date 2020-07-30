@@ -5,21 +5,24 @@ var HappyTiger;
     HappyTiger.ƒAid = FudgeAid;
     window.addEventListener("load", test);
     let tiger;
+    let coin;
     function test() {
         let canvas = document.querySelector("canvas");
         let crc2 = canvas.getContext("2d");
         let img = document.querySelector("img");
         let spritesheet = HappyTiger.ƒAid.createSpriteSheet("Tiger", img);
         HappyTiger.Tiger.generateSprites(spritesheet);
+        HappyTiger.Coin.generateSprites(spritesheet);
         HappyTiger.game = new HappyTiger.ƒ.Node("Game");
         tiger = new HappyTiger.Tiger("Tiger");
+        coin = new HappyTiger.Coin("Coin");
         HappyTiger.level = createLevel();
         HappyTiger.game.appendChild(HappyTiger.level);
         HappyTiger.game.appendChild(tiger);
         for (let i = 0; i < 5; i++) {
-            let tiger = new HappyTiger.Tiger();
-            tiger.mtxLocal.translation = new HappyTiger.ƒ.Vector3(HappyTiger.ƒ.Random.default.getRange(-1, 1), HappyTiger.ƒ.Random.default.getRange(-1, 1));
-            HappyTiger.game.appendChild(tiger);
+            let coin = new HappyTiger.Coin();
+            coin.mtxLocal.translation = new HappyTiger.ƒ.Vector3(HappyTiger.ƒ.Random.default.getRange(-1, 1), HappyTiger.ƒ.Random.default.getRange(-1, 1));
+            HappyTiger.game.appendChild(coin);
         }
         let cmpCamera = new HappyTiger.ƒ.ComponentCamera();
         cmpCamera.pivot.translateZ(5);
@@ -65,6 +68,7 @@ var HappyTiger;
             tiger.act(HappyTiger.ACTION.RUN);
         else
             tiger.act(HappyTiger.ACTION.IDLE);
+        //coin.act(ACTION.COINFLIP);
     }
     function createLevel() {
         let level = new HappyTiger.ƒ.Node("Level");

@@ -8,6 +8,7 @@ namespace HappyTiger {
   export let game: ƒ.Node;
   export let level: ƒ.Node;
   let tiger: Tiger;
+  let coin: Coin;
 
   function test(): void {
     let canvas: HTMLCanvasElement = document.querySelector("canvas");
@@ -15,18 +16,20 @@ namespace HappyTiger {
     let img: HTMLImageElement = document.querySelector("img");
     let spritesheet: ƒ.CoatTextured = ƒAid.createSpriteSheet("Tiger", img);
     Tiger.generateSprites(spritesheet);
+    Coin.generateSprites(spritesheet);
     
 
     game = new ƒ.Node("Game");
     tiger = new Tiger("Tiger");
+    coin = new Coin("Coin");
     level = createLevel();
     game.appendChild(level);
     game.appendChild(tiger);
 
     for (let i: number = 0; i < 5; i++) {
-      let tiger: Tiger = new Tiger();
-      tiger.mtxLocal.translation = new ƒ.Vector3(ƒ.Random.default.getRange(-1, 1), ƒ.Random.default.getRange(-1, 1));
-      game.appendChild(tiger);
+      let coin: Coin = new Coin();
+      coin.mtxLocal.translation = new ƒ.Vector3(ƒ.Random.default.getRange(-1, 1), ƒ.Random.default.getRange(-1, 1));
+      game.appendChild(coin);
     }
 
     let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
@@ -76,6 +79,8 @@ namespace HappyTiger {
       tiger.act(ACTION.RUN);
     else
       tiger.act(ACTION.IDLE);
+    
+    //coin.act(ACTION.COINFLIP);
   }
 
   function createLevel(): ƒ.Node {

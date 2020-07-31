@@ -4,11 +4,22 @@ namespace HappyTiger {
   export import ƒAid = FudgeAid;
 
   window.addEventListener("load", test);
+  window.addEventListener("load", start);
 
   export let game: ƒ.Node;
   export let level: ƒ.Node;
   let tiger: Tiger;
   let coin: Coin;
+  let rocket: Rocket;
+  
+  function start(){
+      let startBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("start");
+      startBtn.addEventListener("click", startGame);
+  }
+
+  function startGame(){
+    console.log("startgame");
+  }
 
   function test(): void {
     let canvas: HTMLCanvasElement = document.querySelector("canvas");
@@ -17,24 +28,29 @@ namespace HappyTiger {
     let spritesheet: ƒ.CoatTextured = ƒAid.createSpriteSheet("Tiger", img);
     Tiger.generateSprites(spritesheet);
     Coin.generateSprites(spritesheet);
+    Rocket.generateSprites(spritesheet);
     
 
     game = new ƒ.Node("Game");
     tiger = new Tiger("Tiger");
     coin = new Coin("Coin");
+    rocket = new Rocket("Rocket");
     level = createLevel();
     game.appendChild(level);
     game.appendChild(tiger);
+    game.appendChild(rocket);
+
+    rocket.act(ACTION.ROCKET);
 
     for (let i: number = 0; i < 5; i++) {
       let coin: Coin = new Coin();
-      coin.mtxLocal.translation = new ƒ.Vector3(ƒ.Random.default.getRange(-1, 1), ƒ.Random.default.getRange(-1, 1));
+      coin.mtxLocal.translation = new ƒ.Vector3(ƒ.Random.default.getRange(-1.6, 1.6), ƒ.Random.default.getRange(-1.6, 1.6));
       game.appendChild(coin);
     }
 
     let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
-    cmpCamera.pivot.translateZ(5);
-    cmpCamera.pivot.lookAt(ƒ.Vector3.ZERO());
+    cmpCamera.pivot.translateZ(8);
+    cmpCamera.pivot.lookAt(tiger.mtxLocal.translation); //!!! Kamera soll Tiger folgen? wie kann ich das lösen?
     cmpCamera.backgroundColor = ƒ.Color.CSS("aliceblue");
 
     let viewport: ƒ.Viewport = new ƒ.Viewport();

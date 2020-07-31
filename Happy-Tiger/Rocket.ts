@@ -3,43 +3,51 @@ namespace HappyTiger {
     import ƒAid = FudgeAid;
   
     export enum ACTION {
-      COINFLIP = "Coinflip"
+      ROCKET = "Rocket"
     }
 
 
-    export class Coin extends ƒAid.NodeSprite {
+    export class Rocket extends ƒAid.NodeSprite {
     private static animations: ƒAid.SpriteSheetAnimations;  
     private action: ACTION;
     public speed: ƒ.Vector3 = ƒ.Vector3.ZERO();
     private static gravity: ƒ.Vector2 = ƒ.Vector2.Y(-3);
 
     
-    constructor(_name: string = "Coin") {
+    constructor(_name: string = "Rocket") {
         super(_name);
         this.addComponent(new ƒ.ComponentTransform());
-        this.show(ACTION.COINFLIP);
+        this.show(ACTION.ROCKET);
         ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.update);
     }
 
     public static generateSprites(_spritesheet: ƒ.CoatTextured): void {
-        Coin.animations = {};
-        let sprite: ƒAid.SpriteSheetAnimation = new ƒAid.SpriteSheetAnimation(ACTION.COINFLIP, _spritesheet);
-        sprite.generateByGrid(ƒ.Rectangle.GET(75, 1420, 150, 150), 4, ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
-        Coin.animations[ACTION.COINFLIP] = sprite;
+        Rocket.animations = {};
+        let sprite: ƒAid.SpriteSheetAnimation = new ƒAid.SpriteSheetAnimation(ACTION.ROCKET, _spritesheet);
+        sprite.generateByGrid(ƒ.Rectangle.GET(825, 1420, 150, 150), 3, ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
+        Rocket.animations[ACTION.ROCKET] = sprite;
         sprite.frames.forEach(element => {
           element.mtxPivot.rotateX(180);
         });
     }
 
     public show(_action: ACTION): void {
-        this.setAnimation(<ƒAid.SpriteSheetAnimation>Coin.animations[_action]);
+        this.setAnimation(<ƒAid.SpriteSheetAnimation>Rocket.animations[_action]);
     }
+
+    // case ACTION.JUMP:
+    //   if (this.speed.y != 0) {
+    //     break;
+    //   } else {
+    //     this.speed.y = 3;
+    //     break;
+    //   }
 
     public act(_action: ACTION, _direction?: DIRECTION): void {
         switch (_action) {
-          case ACTION.COINFLIP:
-            this.speed.x = 0;
-            break;
+          case ACTION.ROCKET:
+            this.speed.x = 1.5;
+         //wenn rechts raus, dann switch richtung, pro reihe eine mit unterschiedlicher geschwindigkeit
         }
         if (_action == this.action)
         return;
@@ -50,7 +58,14 @@ namespace HappyTiger {
 
     private update = (_event: ƒ.Eventƒ): void => {
         let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
-        this.speed.y += Coin.gravity.y * timeFrame;
+        if(this.mtxWorld.translation.x > 1){
+          this.speed.x += Rocket.gravity.y * timeFrame;
+        } else {
+          this.speed.y += Rocket.gravity.y * timeFrame;
+        }
+
+        
+        
         let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
         this.cmpTransform.local.translate(distance);
         this.checkCollision();

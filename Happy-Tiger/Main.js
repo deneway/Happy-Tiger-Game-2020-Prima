@@ -4,8 +4,17 @@ var HappyTiger;
     HappyTiger.ƒ = FudgeCore;
     HappyTiger.ƒAid = FudgeAid;
     window.addEventListener("load", test);
+    window.addEventListener("load", start);
     let tiger;
     let coin;
+    let rocket;
+    function start() {
+        let startBtn = document.getElementById("start");
+        startBtn.addEventListener("click", startGame);
+    }
+    function startGame() {
+        console.log("startgame");
+    }
     function test() {
         let canvas = document.querySelector("canvas");
         let crc2 = canvas.getContext("2d");
@@ -13,20 +22,24 @@ var HappyTiger;
         let spritesheet = HappyTiger.ƒAid.createSpriteSheet("Tiger", img);
         HappyTiger.Tiger.generateSprites(spritesheet);
         HappyTiger.Coin.generateSprites(spritesheet);
+        HappyTiger.Rocket.generateSprites(spritesheet);
         HappyTiger.game = new HappyTiger.ƒ.Node("Game");
         tiger = new HappyTiger.Tiger("Tiger");
         coin = new HappyTiger.Coin("Coin");
+        rocket = new HappyTiger.Rocket("Rocket");
         HappyTiger.level = createLevel();
         HappyTiger.game.appendChild(HappyTiger.level);
         HappyTiger.game.appendChild(tiger);
+        HappyTiger.game.appendChild(rocket);
+        rocket.act(HappyTiger.ACTION.ROCKET);
         for (let i = 0; i < 5; i++) {
             let coin = new HappyTiger.Coin();
-            coin.mtxLocal.translation = new HappyTiger.ƒ.Vector3(HappyTiger.ƒ.Random.default.getRange(-1, 1), HappyTiger.ƒ.Random.default.getRange(-1, 1));
+            coin.mtxLocal.translation = new HappyTiger.ƒ.Vector3(HappyTiger.ƒ.Random.default.getRange(-1.6, 1.6), HappyTiger.ƒ.Random.default.getRange(-1.6, 1.6));
             HappyTiger.game.appendChild(coin);
         }
         let cmpCamera = new HappyTiger.ƒ.ComponentCamera();
-        cmpCamera.pivot.translateZ(5);
-        cmpCamera.pivot.lookAt(HappyTiger.ƒ.Vector3.ZERO());
+        cmpCamera.pivot.translateZ(8);
+        cmpCamera.pivot.lookAt(tiger.mtxLocal.translation); //!!! Kamera soll Tiger folgen? wie kann ich das lösen?
         cmpCamera.backgroundColor = HappyTiger.ƒ.Color.CSS("aliceblue");
         let viewport = new HappyTiger.ƒ.Viewport();
         viewport.initialize("Viewport", HappyTiger.game, cmpCamera, canvas);

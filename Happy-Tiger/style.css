@@ -1,0 +1,18 @@
+body{
+    background-color: orange;
+    overflow: hidden;
+  }
+
+  h1 {
+    color: white;
+    font-family: arial;
+    text-align: center;
+}
+
+#overlay {
+    background-color: orange;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: none;
+}

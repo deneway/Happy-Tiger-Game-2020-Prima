@@ -7,11 +7,8 @@ namespace HappyTiger {
     }
 
 
-    export class Coin extends ƒAid.NodeSprite {
-    private static animations: ƒAid.SpriteSheetAnimations;  
-    private action: ACTION;
-    public speed: ƒ.Vector3 = ƒ.Vector3.ZERO();
-    private static gravity: ƒ.Vector2 = ƒ.Vector2.Y(-3);
+    export class Coin extends item {
+    
 
     
     constructor(_name: string = "Coin") {
@@ -57,17 +54,34 @@ namespace HappyTiger {
         
     }
 
-    private checkCollision(): void {
-        for (let floor of level.getChildren()) {
-          let rect: ƒ.Rectangle = (<Floor>floor).getRectWorld();
-          let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
-          if (hit) {
-            let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
-            translation.y = rect.y;
-            this.cmpTransform.local.translation = translation;
-            this.speed.y = 0;
-          }
-        }
+    public getRectCoin(): ƒ.Rectangle {
+      let rect: ƒ.Rectangle = ƒ.Rectangle.GET(0, 0, 100, 100);
+      let topleft: ƒ.Vector3 = new ƒ.Vector3(-0.5, 0.5, 0);
+      let bottomright: ƒ.Vector3 = new ƒ.Vector3(0.5, -0.5, 0);
+      
+      let mtxResult: ƒ.Matrix4x4 = ƒ.Matrix4x4.MULTIPLICATION(this.mtxWorld, Coin.pivot);
+      topleft.transform(mtxResult, true);
+      bottomright.transform(mtxResult, true);
+
+      let size: ƒ.Vector2 = new ƒ.Vector2(bottomright.x - topleft.x, bottomright.y - topleft.y);
+      rect.position = topleft.toVector2();
+      rect.size = size;
+
+      return rect;
     }
+
+
+    private checkCollision(): void {
+      for (let floor of level.getChildren()) {
+        let rect: ƒ.Rectangle = (<Floor>floor).getRectWorld();
+        let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+        if (hit) {
+          let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
+          translation.y = rect.y;
+          this.cmpTransform.local.translation = translation;
+          this.speed.y = 0;
+        }
+      }
+  }
     }
 }

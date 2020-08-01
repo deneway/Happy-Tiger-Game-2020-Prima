@@ -7,11 +7,11 @@ namespace HappyTiger {
     }
 
 
-    export class Rocket extends ƒAid.NodeSprite {
-    private static animations: ƒAid.SpriteSheetAnimations;  
-    private action: ACTION;
+    export class Rocket extends item {
+    public static animations: ƒAid.SpriteSheetAnimations;  
+    public action: ACTION;
     public speed: ƒ.Vector3 = ƒ.Vector3.ZERO();
-    private static gravity: ƒ.Vector2 = ƒ.Vector2.Y(-3);
+    public static gravity: ƒ.Vector2 = ƒ.Vector2.Y(0);
 
     
     constructor(_name: string = "Rocket") {
@@ -35,18 +35,10 @@ namespace HappyTiger {
         this.setAnimation(<ƒAid.SpriteSheetAnimation>Rocket.animations[_action]);
     }
 
-    // case ACTION.JUMP:
-    //   if (this.speed.y != 0) {
-    //     break;
-    //   } else {
-    //     this.speed.y = 3;
-    //     break;
-    //   }
-
     public act(_action: ACTION, _direction?: DIRECTION): void {
         switch (_action) {
           case ACTION.ROCKET:
-            this.speed.x = 1.5;
+            this.speed.x = ƒ.Random.default.getRange(3,1.5);
          //wenn rechts raus, dann switch richtung, pro reihe eine mit unterschiedlicher geschwindigkeit
         }
         if (_action == this.action)
@@ -58,11 +50,29 @@ namespace HappyTiger {
 
     private update = (_event: ƒ.Eventƒ): void => {
         let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
-        if(this.mtxWorld.translation.x > 1){
+        if(this.mtxWorld.translation.x > 3.5){                  
           this.speed.x += Rocket.gravity.y * timeFrame;
-        } else {
+          this.cmpTransform.local.rotation = ƒ.Vector3.Y(90 - 90 * -1);
+        } 
+          else {
           this.speed.y += Rocket.gravity.y * timeFrame;
+          }
+        if(this.mtxWorld.translation.x < -3.5){
+          this.speed.x -= Rocket.gravity.y * timeFrame;
+          this.cmpTransform.local.rotation = ƒ.Vector3.Y(90 - 90 * 1);
         }
+          else {
+          this.speed.y += Rocket.gravity.y * timeFrame;
+          }
+
+        
+        // if(this.mtxWorld.translation.x < 3){
+        //   this.speed.x -= Rocket.gravity.y * timeFrame;
+        // }
+        //   else {
+        //   this.speed.y -= Rocket.gravity.y * timeFrame;
+        //   }
+        
 
         
         

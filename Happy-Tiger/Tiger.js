@@ -23,10 +23,17 @@ var HappyTiger;
             this.speed = ƒ.Vector3.ZERO();
             this.update = (_event) => {
                 let timeFrame = ƒ.Loop.timeFrameGame / 1000;
+                if (this.mtxWorld.translation.x > 3.5) {
+                    this.cmpTransform.local.translateX(-7);
+                }
+                if (this.mtxWorld.translation.x < -3.5) {
+                    this.cmpTransform.local.translateX(-7);
+                }
                 this.speed.y += Tiger.gravity.y * timeFrame;
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
                 this.checkCollision();
+                this.checkCollisionCoin();
             };
             this.addComponent(new ƒ.ComponentTransform());
             this.show(ACTION.IDLE);
@@ -123,6 +130,21 @@ var HappyTiger;
                     translation.y = rect.y;
                     this.cmpTransform.local.translation = translation;
                     this.speed.y = 0;
+                }
+            }
+        }
+        checkCollisionCoin() {
+            for (let coin of HappyTiger.game.getChildren()) {
+                if (coin.name == "Coin") {
+                    let rect = coin.getRectCoin();
+                    let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                    if (hit) {
+                        console.log("hallo");
+                        // let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
+                        // translation.y = rect.y;
+                        // this.cmpTransform.local.translation = translation;
+                        // this.speed.y = 0;
+                    }
                 }
             }
         }

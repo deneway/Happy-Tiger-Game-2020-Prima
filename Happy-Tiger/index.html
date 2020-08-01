@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Happy Tiger</title>
+  <title>PRIMA Abgabe SS2020</title>
   <script src="../FudgeCore/FudgeCore.js"></script>
   <script src="../FudgeAid/FudgeAid.js"></script>
+  <script src="item.js"></script>
   <script src="Coin.js"></script>
   <script src="Rocket.js"></script>
   <script src="Tiger.js"></script>
@@ -18,16 +19,25 @@
 <body>
   
   <h1>
-    Happy Tiger
+    PRIMA Abgabe 2020
   </h1>
+  <div id="container">
   <div id="overlay">
-    <h2>Willkommen beim Happy-Tiger 2D Spiel</h2>
-    <button id="start">Start</button>
-    <button>Optionen</button>
+    <h2>HAPPY TIGER</h2>
+    <div class="wrapper">
+      <a id="start"><span>Start</span></a>
+    </div>
+    <div class="wrapper2">
+      <a id="optionen"><span>Optionen</span></a>
+    </div>
+    <div class="wrapper3">
+      <a id="anleitung"><span>Anleitung</span></a>
+    </div>
   </div>
   <div id="game">
   <canvas width="600" height="800" style="background-color: aliceblue;"></canvas>
   <img src="happytiger-spride.png" style="display: none;"/>
+  </div>
   </div>
 </body>
 </html>

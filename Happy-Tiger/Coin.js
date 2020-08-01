@@ -7,10 +7,9 @@ var HappyTiger;
     (function (ACTION) {
         ACTION["COINFLIP"] = "Coinflip";
     })(ACTION = HappyTiger.ACTION || (HappyTiger.ACTION = {}));
-    class Coin extends ƒAid.NodeSprite {
+    class Coin extends HappyTiger.item {
         constructor(_name = "Coin") {
             super(_name);
-            this.speed = ƒ.Vector3.ZERO();
             this.update = (_event) => {
                 let timeFrame = ƒ.Loop.timeFrameGame / 1000;
                 this.speed.y += Coin.gravity.y * timeFrame;
@@ -45,6 +44,18 @@ var HappyTiger;
             this.action = _action;
             this.show(_action);
         }
+        getRectCoin() {
+            let rect = ƒ.Rectangle.GET(0, 0, 100, 100);
+            let topleft = new ƒ.Vector3(-0.5, 0.5, 0);
+            let bottomright = new ƒ.Vector3(0.5, -0.5, 0);
+            let mtxResult = ƒ.Matrix4x4.MULTIPLICATION(this.mtxWorld, Coin.pivot);
+            topleft.transform(mtxResult, true);
+            bottomright.transform(mtxResult, true);
+            let size = new ƒ.Vector2(bottomright.x - topleft.x, bottomright.y - topleft.y);
+            rect.position = topleft.toVector2();
+            rect.size = size;
+            return rect;
+        }
         checkCollision() {
             for (let floor of HappyTiger.level.getChildren()) {
                 let rect = floor.getRectWorld();
@@ -58,7 +69,6 @@ var HappyTiger;
             }
         }
     }
-    Coin.gravity = ƒ.Vector2.Y(-3);
     HappyTiger.Coin = Coin;
 })(HappyTiger || (HappyTiger = {}));
 //# sourceMappingURL=Coin.js.map

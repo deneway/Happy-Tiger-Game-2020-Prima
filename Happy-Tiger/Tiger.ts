@@ -129,11 +129,22 @@ namespace HappyTiger {
 
     private update = (_event: ƒ.Eventƒ): void => {
       let timeFrame: number = ƒ.Loop.timeFrameGame / 1000;
+      if(this.mtxWorld.translation.x > 3.5) 
+      {
+        this.cmpTransform.local.translateX(-7);
+      }
+      if(this.mtxWorld.translation.x < -3.5) 
+      {
+        this.cmpTransform.local.translateX(-7);
+      }
+
+      
       this.speed.y += Tiger.gravity.y * timeFrame;
       let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
       this.cmpTransform.local.translate(distance);
 
       this.checkCollision();
+      this.checkCollisionCoin();
     }
 
     private checkCollision(): void {
@@ -148,5 +159,21 @@ namespace HappyTiger {
         }
       }
     }
+    private checkCollisionCoin(): void {
+      for (let coin of game.getChildren()) {
+        if (coin.name == "Coin"){
+        let rect: ƒ.Rectangle = (<Coin>coin).getRectCoin();
+        let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+        if (hit) {
+
+          console.log("hallo");
+          // let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
+          // translation.y = rect.y;
+          // this.cmpTransform.local.translation = translation;
+          // this.speed.y = 0;
+        }
+      }
+    } 
+  }
   }
 }

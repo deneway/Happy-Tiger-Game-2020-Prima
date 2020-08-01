@@ -7,18 +7,32 @@ var HappyTiger;
     (function (ACTION) {
         ACTION["ROCKET"] = "Rocket";
     })(ACTION = HappyTiger.ACTION || (HappyTiger.ACTION = {}));
-    class Rocket extends ƒAid.NodeSprite {
+    class Rocket extends HappyTiger.item {
         constructor(_name = "Rocket") {
             super(_name);
             this.speed = ƒ.Vector3.ZERO();
             this.update = (_event) => {
                 let timeFrame = ƒ.Loop.timeFrameGame / 1000;
-                if (this.mtxWorld.translation.x > 1) {
+                if (this.mtxWorld.translation.x > 3.5) {
                     this.speed.x += Rocket.gravity.y * timeFrame;
+                    this.cmpTransform.local.rotation = ƒ.Vector3.Y(90 - 90 * -1);
                 }
                 else {
                     this.speed.y += Rocket.gravity.y * timeFrame;
                 }
+                if (this.mtxWorld.translation.x < -3.5) {
+                    this.speed.x -= Rocket.gravity.y * timeFrame;
+                    this.cmpTransform.local.rotation = ƒ.Vector3.Y(90 - 90 * 1);
+                }
+                else {
+                    this.speed.y += Rocket.gravity.y * timeFrame;
+                }
+                // if(this.mtxWorld.translation.x < 3){
+                //   this.speed.x -= Rocket.gravity.y * timeFrame;
+                // }
+                //   else {
+                //   this.speed.y -= Rocket.gravity.y * timeFrame;
+                //   }
                 let distance = ƒ.Vector3.SCALE(this.speed, timeFrame);
                 this.cmpTransform.local.translate(distance);
                 this.checkCollision();
@@ -39,17 +53,10 @@ var HappyTiger;
         show(_action) {
             this.setAnimation(Rocket.animations[_action]);
         }
-        // case ACTION.JUMP:
-        //   if (this.speed.y != 0) {
-        //     break;
-        //   } else {
-        //     this.speed.y = 3;
-        //     break;
-        //   }
         act(_action, _direction) {
             switch (_action) {
                 case ACTION.ROCKET:
-                    this.speed.x = 1.5;
+                    this.speed.x = ƒ.Random.default.getRange(3, 1.5);
                 //wenn rechts raus, dann switch richtung, pro reihe eine mit unterschiedlicher geschwindigkeit
             }
             if (_action == this.action)
@@ -70,7 +77,7 @@ var HappyTiger;
             }
         }
     }
-    Rocket.gravity = ƒ.Vector2.Y(-3);
+    Rocket.gravity = ƒ.Vector2.Y(0);
     HappyTiger.Rocket = Rocket;
 })(HappyTiger || (HappyTiger = {}));
 //# sourceMappingURL=Rocket.js.map

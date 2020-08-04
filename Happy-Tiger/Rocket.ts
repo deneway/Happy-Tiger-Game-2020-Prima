@@ -3,7 +3,8 @@ namespace HappyTiger {
     import ƒAid = FudgeAid;
   
     export enum ACTION {
-      ROCKET = "Rocket"
+      ROCKET = "Rocket",
+      EXPLOSION = "Explosion"
     }
 
 
@@ -29,6 +30,13 @@ namespace HappyTiger {
         sprite.frames.forEach(element => {
           element.mtxPivot.rotateX(180);
         });
+
+        sprite = new ƒAid.SpriteSheetAnimation(ACTION.EXPLOSION, _spritesheet);
+        sprite.generateByGrid(ƒ.Rectangle.GET(75, 1270, 150, 150), 7, ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
+        Rocket.animations[ACTION.EXPLOSION] = sprite;
+        sprite.frames.forEach(element => {
+          element.mtxPivot.rotateX(180);
+        });
     }
 
     public show(_action: ACTION): void {
@@ -38,9 +46,15 @@ namespace HappyTiger {
     public act(_action: ACTION, _direction?: DIRECTION): void {
         switch (_action) {
           case ACTION.ROCKET:
-            this.speed.x = ƒ.Random.default.getRange(3,1.5);
-         //wenn rechts raus, dann switch richtung, pro reihe eine mit unterschiedlicher geschwindigkeit
+            this.speed.x = ƒ.Random.default.getRange(3.5,1.3);
+            break;
+            case ACTION.EXPLOSION:
+            this.speed.x = 0;
+            break; 
         }
+          
+
+          
         if (_action == this.action)
         return;
 
@@ -65,34 +79,36 @@ namespace HappyTiger {
           this.speed.y += Rocket.gravity.y * timeFrame;
           }
 
-        
-        // if(this.mtxWorld.translation.x < 3){
-        //   this.speed.x -= Rocket.gravity.y * timeFrame;
-        // }
-        //   else {
-        //   this.speed.y -= Rocket.gravity.y * timeFrame;
-        //   }
-        
-
-        
-        
         let distance: ƒ.Vector3 = ƒ.Vector3.SCALE(this.speed, timeFrame);
         this.cmpTransform.local.translate(distance);
         this.checkCollision();
-        
-    }
-
-    private checkCollision(): void {
-        for (let floor of level.getChildren()) {
-          let rect: ƒ.Rectangle = (<Floor>floor).getRectWorld();
-          let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
-          if (hit) {
-            let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
-            translation.y = rect.y;
-            this.cmpTransform.local.translation = translation;
-            this.speed.y = 0;
-          }
+        if(dead == true){
+        this.act(ACTION.EXPLOSION);
         }
     }
+
+    public getRectRocket(): ƒ.Rectangle {
+      let rect: ƒ.Rectangle = ƒ.Rectangle.GET(0, 0, 100, 100);
+      let topleft: ƒ.Vector3 = new ƒ.Vector3(0.0, 0.2, 0);
+      let bottomright: ƒ.Vector3 = new ƒ.Vector3(0.5, -0.5, 0);
+      
+      
+      let mtxResult: ƒ.Matrix4x4 = ƒ.Matrix4x4.MULTIPLICATION(this.mtxWorld, Rocket.pivot);
+      
+      
+      topleft.transform(mtxResult, true);
+      bottomright.transform(mtxResult, true);
+
+
+      let size: ƒ.Vector2 = new ƒ.Vector2(0.6, 0.6);
+      rect.position = topleft.toVector2();
+      rect.size = size;
+
+      return rect;
     }
+
+    public checkCollision(): void {
+      super.checkCollision();
+    }
+}
 }

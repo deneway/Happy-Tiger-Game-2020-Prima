@@ -5,13 +5,14 @@ var HappyTiger;
     HappyTiger.ƒAid = FudgeAid;
     window.addEventListener("load", test);
     window.addEventListener("load", start);
+    HappyTiger.restart = 0;
     let tiger;
     let coin;
     let rocket;
     let dolly = HappyTiger.ƒ.Vector3.ZERO();
     //JSON-Daten
     let floors = 4;
-    let coins = 10;
+    HappyTiger.coins = 10;
     //GUI
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -19,15 +20,70 @@ var HappyTiger;
     function start() {
         let startBtn = document.getElementById("start");
         startBtn.addEventListener("click", startGame);
+        let restartBtn = document.getElementById("restart2");
+        restartBtn.addEventListener("click", restartGame);
+        let optionBtn = document.getElementById("optionen");
+        optionBtn.addEventListener("click", optionMenue);
+        let anleitungBtn = document.getElementById("anleitung");
+        anleitungBtn.addEventListener("click", anleitungMenue);
+        let leichterBtn = document.getElementById("leichter");
+        leichterBtn.addEventListener("click", leichter);
+        let schwererBtn = document.getElementById("schwerer");
+        schwererBtn.addEventListener("click", schwerer);
+    }
+    function leichter() {
+        HappyTiger.restart = 1;
+        HappyTiger.level.removeChild(tiger);
+        HappyTiger.level.removeChild(HappyTiger.game);
+        HappyTiger.game.removeChild(HappyTiger.level);
+        floors = floors - 1;
+        HappyTiger.dead = false;
+        HappyTiger.game.appendChild(HappyTiger.level);
+        let looseoverlay = document.getElementById("looseoverlay");
+        looseoverlay.style.display = "none";
+        let overlay = document.getElementById("overlay");
+        overlay.style.display = "none";
+    }
+    function schwerer() {
+        floors = floors + 1;
     }
     async function startGame() {
         console.log("startgame");
+        HappyTiger.Audio.init();
+        HappyTiger.Audio.play("Safari");
         let overlay = document.getElementById("overlay");
         let startbutton = document.getElementById("start");
         startbutton.style.visibility = "hidden";
         overlay.style.display = "none";
-        //Sound.init();
-        //Sound.play("Theme");
+    }
+    function restartGame() {
+        location.reload();
+        console.log("hallo?");
+    }
+    function optionMenue() {
+        let backBtn = document.getElementById("zurueck");
+        backBtn.addEventListener("click", backMenue);
+        let overlay = document.getElementById("overlay");
+        let optionoverlay = document.getElementById("option-overlay");
+        overlay.style.display = "none";
+        optionoverlay.style.display = "inline";
+    }
+    function anleitungMenue() {
+        let backBtn = document.getElementById("zurueck1");
+        backBtn.addEventListener("click", backMenue);
+        let overlay = document.getElementById("overlay");
+        let anleitungoverlay = document.getElementById("anleitung-overlay");
+        overlay.style.display = "none";
+        anleitungoverlay.style.display = "inline";
+    }
+    function backMenue() {
+        console.log("hallo-menue");
+        let overlay = document.getElementById("overlay");
+        let optionoverlay = document.getElementById("option-overlay");
+        let anleitungoverlay = document.getElementById("anleitung-overlay");
+        overlay.style.display = "inline";
+        optionoverlay.style.display = "none";
+        anleitungoverlay.style.display = "none";
     }
     function test() {
         let canvas = document.querySelector("canvas");
@@ -44,13 +100,12 @@ var HappyTiger;
         coin = new HappyTiger.Coin("Coin");
         HappyTiger.level = createLevel();
         HappyTiger.game.appendChild(HappyTiger.level);
-        for (let i = 0; i < coins; i++) {
+        for (let i = 0; i < HappyTiger.coins; i++) {
             let coin = new HappyTiger.Coin();
             coin.cmpTransform.local.translateY(HappyTiger.ƒ.Random.default.getRange(-2, 4));
-            coin.cmpTransform.local.translateX(-2.47 + (5.5 / coins) * (i));
-            HappyTiger.game.appendChild(coin);
+            coin.cmpTransform.local.translateX(-2.47 + (5.5 / HappyTiger.coins) * (i));
+            HappyTiger.level.appendChild(coin);
         }
-        HappyTiger.game.appendChild(tiger);
         let cmpCamera = new HappyTiger.ƒ.ComponentCamera();
         cmpCamera.pivot.translateZ(8);
         cmpCamera.pivot.lookAt(dolly); //!!! Kamera soll Tiger folgen? wie kann ich das lösen?
@@ -68,8 +123,7 @@ var HappyTiger;
             //cmpCamera.pivot.lookAt(tiger.mtxLocal.translation); 
             //cmpCamera.pivot.translateX(0);
             viewport.draw();
-            crc2.strokeRect(-1, -1, canvas.width / 2, canvas.height + 2);
-            crc2.strokeRect(-1, canvas.height / 2, canvas.width + 2, canvas.height);
+            deadproof();
         }
     }
     function handleKeyboard(_event) {
@@ -99,6 +153,14 @@ var HappyTiger;
             tiger.act(HappyTiger.ACTION.IDLE);
         //coin.act(ACTION.COINFLIP);
     }
+    function deadproof() {
+        if (HappyTiger.dead == true) {
+            setTimeout(function () {
+                let looseoverlay = document.getElementById("looseoverlay");
+                looseoverlay.style.display = "inline";
+            }, 3000);
+        }
+    }
     function createLevel() {
         let level = new HappyTiger.ƒ.Node("Level");
         let floor = new HappyTiger.Floor();
@@ -124,7 +186,7 @@ var HappyTiger;
             floor.cmpTransform.local.translateX(-0.57 + (floorescape));
             rocket.cmpTransform.local.translateY(-3.6 + (6 / floors) * (i + 1));
             level.appendChild(floor);
-            HappyTiger.game.appendChild(rocket);
+            level.appendChild(rocket);
             rocket.act(HappyTiger.ACTION.ROCKET);
             floor = new HappyTiger.Floor();
             floor.cmpTransform.local.translateY(-3.6 + (6 / floors) * i);
@@ -133,6 +195,7 @@ var HappyTiger;
             floor.cmpTransform.local.translateX(0.57 + (floorescape));
             level.appendChild(floor);
         }
+        level.appendChild(tiger);
         return level;
     }
 })(HappyTiger || (HappyTiger = {}));

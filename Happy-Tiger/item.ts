@@ -16,5 +16,19 @@ namespace HappyTiger {
         super(_name);
        
     }
+    public checkCollision(): void {
+        for (let floor of level.getChildren()) {
+          if (floor.name == "Floor"){
+          let rect: ƒ.Rectangle = (<Floor>floor).getRectWorld();
+          let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+          if (hit) {
+            let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
+            translation.y = rect.y;
+            this.cmpTransform.local.translation = translation;
+            this.speed.y = 0;
+          }
+        }
     }
+    }
+  }
 }

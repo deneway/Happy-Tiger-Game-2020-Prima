@@ -1,9 +1,19 @@
 namespace HappyTiger {
   import ƒ = FudgeCore;
+  import ƒAid = FudgeAid;
 
-  export class Floor extends ƒ.Node {
+  let img: HTMLImageElement = <HTMLImageElement>document.getElementById("dirt");
+  let spritesheet: ƒ.CoatTextured = ƒAid.createSpriteSheet("Floor", img);
+  
+  export enum BODEN {
+    DIRT = "Dirt"
+  }
+
+  export class Floor extends ƒ.Node    {
+    private static animations: ƒAid.SpriteSheetAnimations;  
     private static mesh: ƒ.MeshSprite = new ƒ.MeshSprite();
-    private static material: ƒ.Material = new ƒ.Material("Floor", ƒ.ShaderUniColor, new ƒ.CoatColored(ƒ.Color.CSS("red")));
+    
+    private static material: ƒ.Material = new ƒ.Material("Floor", ƒ.ShaderUniColor, new ƒ.CoatColored(ƒ.Color.CSS("brown")));
     private static readonly pivot: ƒ.Matrix4x4 = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(-0.5));
 
     public constructor() {
@@ -15,6 +25,21 @@ namespace HappyTiger {
       cmpMesh.pivot = Floor.pivot;
       this.addComponent(cmpMesh);
     }
+
+    public static generateSprites(_spritesheet: ƒ.CoatTextured): void {
+      Floor.animations = {};
+      let sprite: ƒAid.SpriteSheetAnimation = new ƒAid.SpriteSheetAnimation(BODEN.DIRT, _spritesheet);
+      sprite.generateByGrid(ƒ.Rectangle.GET(512/2, 512/2, 512, 512), 1, ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
+      Floor.animations[BODEN.DIRT] = sprite;
+      sprite.frames.forEach(element => {
+        element.mtxPivot.rotateX(180);
+      });
+    }
+
+    public show(_action: BODEN): void {
+      this.setAnimation(<ƒAid.SpriteSheetAnimation>Floor.animations[_action]);
+    }
+
 
     public getRectWorld(): ƒ.Rectangle {
       let rect: ƒ.Rectangle = ƒ.Rectangle.GET(0, 0, 100, 100);

@@ -1,6 +1,10 @@
 namespace HappyTiger {
   import ƒ = FudgeCore;
   import ƒAid = FudgeAid;
+  let coincounter: number = 0;
+  export let dead: boolean = false;
+
+
 
   export enum ACTION {
     IDLE = "Idle",
@@ -8,7 +12,8 @@ namespace HappyTiger {
     JUMP = "Jump",
     DUCK = "Duck",
     RUN = "Run",
-    SLIDE = "Slide"
+    SLIDE = "Slide",
+    DIE = "Die"
   }
 
   export enum DIRECTION {
@@ -22,6 +27,7 @@ namespace HappyTiger {
     private static gravity: ƒ.Vector2 = ƒ.Vector2.Y(-3);
     public speed: ƒ.Vector3 = ƒ.Vector3.ZERO();
     private action: ACTION;
+    
 
     constructor(_name: string = "Tiger") {
       super(_name);
@@ -76,6 +82,18 @@ namespace HappyTiger {
       sprite = new ƒAid.SpriteSheetAnimation(ACTION.RUN, _spritesheet);
       sprite.generateByGrid(ƒ.Rectangle.GET(75, 671, 150, 150), 7 , ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
       Tiger.animations[ACTION.RUN] = sprite;
+      sprite.frames.forEach(element => {
+        element.mtxPivot.rotateX(180);
+      });
+
+      sprite = new ƒAid.SpriteSheetAnimation(ACTION.DIE, _spritesheet);
+      sprite.generateByGrid(ƒ.Rectangle.GET(75, 1125, 150, 150), 9 , ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
+      Tiger.animations[ACTION.DIE] = sprite;
+      sprite.frames.forEach(element => {
+        element.mtxPivot.rotateX(180);
+      });
+      sprite.generateByGrid(ƒ.Rectangle.GET(1425, 1125, 150, 150), 1 , ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
+      Tiger.animations[ACTION.DIE] = sprite;
       sprite.frames.forEach(element => {
         element.mtxPivot.rotateX(180);
       });
@@ -137,6 +155,7 @@ namespace HappyTiger {
       {
         this.cmpTransform.local.translateX(-7);
       }
+     
 
       
       this.speed.y += Tiger.gravity.y * timeFrame;
@@ -145,10 +164,12 @@ namespace HappyTiger {
 
       this.checkCollision();
       this.checkCollisionCoin();
+      this.checkCollisionRocket();
     }
 
     private checkCollision(): void {
       for (let floor of level.getChildren()) {
+        if (floor.name == "Floor"){
         let rect: ƒ.Rectangle = (<Floor>floor).getRectWorld();
         let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
         if (hit) {
@@ -158,22 +179,56 @@ namespace HappyTiger {
           this.speed.y = 0;
         }
       }
+      
     }
+  }
     private checkCollisionCoin(): void {
-      for (let coin of game.getChildren()) {
+      for (let coin of level.getChildren()) {
         if (coin.name == "Coin"){
         let rect: ƒ.Rectangle = (<Coin>coin).getRectCoin();
         let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
         if (hit) {
 
-          console.log("hallo");
-          // let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
-          // translation.y = rect.y;
-          // this.cmpTransform.local.translation = translation;
-          // this.speed.y = 0;
+          coin.cmpTransform.local.translateX(100);
+          coincounter += 1;
+          Audio.init();
+          Audio.play("Coin");
+          console.log(coincounter);
+          if (coincounter == coins){
+          let winoverlay: HTMLDivElement = <HTMLDivElement>document.getElementById("winoverlay");
+          winoverlay.style.display = "inline";
+          
+          } 
         }
       }
     } 
   }
-  }
+  private checkCollisionRocket(): void {
+    for (let rocket of level.getChildren()) {
+      if (rocket.name == "Rocket"){
+      let rect: ƒ.Rectangle = (<Rocket>rocket).getRectRocket();
+      let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
+      let test: ƒ.Vector2 = new ƒ.Vector2(0, 0.15);
+      let vector: ƒ.Vector2 = this.cmpTransform.local.translation.toVector2();
+      vector.add(test);
+      let test2: ƒ.Vector2 = new ƒ.Vector2(0, -0.15);
+      let vector2: ƒ.Vector2 = this.cmpTransform.local.translation.toVector2();
+      vector2.add(test2);
+      
+      hit = rect.isInside(vector);
+      hit = rect.isInside(vector2);
+      
+      if (hit) {
+
+        console.log("rocket-hit");
+        if (restart == 0){
+        dead = true; 
+        }
+        else {
+          dead = false;
+        } 
+      }
+    }
+  } 
 }
+    }}

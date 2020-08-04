@@ -2,6 +2,13 @@
 var HappyTiger;
 (function (HappyTiger) {
     var ƒ = FudgeCore;
+    var ƒAid = FudgeAid;
+    let img = document.getElementById("dirt");
+    let spritesheet = ƒAid.createSpriteSheet("Floor", img);
+    let BODEN;
+    (function (BODEN) {
+        BODEN["DIRT"] = "Dirt";
+    })(BODEN = HappyTiger.BODEN || (HappyTiger.BODEN = {}));
     class Floor extends ƒ.Node {
         constructor() {
             super("Floor");
@@ -11,6 +18,18 @@ var HappyTiger;
             //cmpMesh.pivot.translateY(-0.5);
             cmpMesh.pivot = Floor.pivot;
             this.addComponent(cmpMesh);
+        }
+        static generateSprites(_spritesheet) {
+            Floor.animations = {};
+            let sprite = new ƒAid.SpriteSheetAnimation(BODEN.DIRT, _spritesheet);
+            sprite.generateByGrid(ƒ.Rectangle.GET(512 / 2, 512 / 2, 512, 512), 1, ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
+            Floor.animations[BODEN.DIRT] = sprite;
+            sprite.frames.forEach(element => {
+                element.mtxPivot.rotateX(180);
+            });
+        }
+        show(_action) {
+            this.setAnimation(Floor.animations[_action]);
         }
         getRectWorld() {
             let rect = ƒ.Rectangle.GET(0, 0, 100, 100);
@@ -27,7 +46,7 @@ var HappyTiger;
         }
     }
     Floor.mesh = new ƒ.MeshSprite();
-    Floor.material = new ƒ.Material("Floor", ƒ.ShaderUniColor, new ƒ.CoatColored(ƒ.Color.CSS("red")));
+    Floor.material = new ƒ.Material("Floor", ƒ.ShaderUniColor, new ƒ.CoatColored(ƒ.Color.CSS("brown")));
     Floor.pivot = ƒ.Matrix4x4.TRANSLATION(ƒ.Vector3.Y(-0.5));
     HappyTiger.Floor = Floor;
 })(HappyTiger || (HappyTiger = {}));

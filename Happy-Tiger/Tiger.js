@@ -3,6 +3,8 @@ var HappyTiger;
 (function (HappyTiger) {
     var ƒ = FudgeCore;
     var ƒAid = FudgeAid;
+    let coincounter = 0;
+    HappyTiger.dead = false;
     let ACTION;
     (function (ACTION) {
         ACTION["IDLE"] = "Idle";
@@ -11,6 +13,7 @@ var HappyTiger;
         ACTION["DUCK"] = "Duck";
         ACTION["RUN"] = "Run";
         ACTION["SLIDE"] = "Slide";
+        ACTION["DIE"] = "Die";
     })(ACTION = HappyTiger.ACTION || (HappyTiger.ACTION = {}));
     let DIRECTION;
     (function (DIRECTION) {
@@ -34,6 +37,7 @@ var HappyTiger;
                 this.cmpTransform.local.translate(distance);
                 this.checkCollision();
                 this.checkCollisionCoin();
+                this.checkCollisionRocket();
             };
             this.addComponent(new ƒ.ComponentTransform());
             this.show(ACTION.IDLE);
@@ -83,6 +87,17 @@ var HappyTiger;
             sprite.frames.forEach(element => {
                 element.mtxPivot.rotateX(180);
             });
+            sprite = new ƒAid.SpriteSheetAnimation(ACTION.DIE, _spritesheet);
+            sprite.generateByGrid(ƒ.Rectangle.GET(75, 1125, 150, 150), 9, ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
+            Tiger.animations[ACTION.DIE] = sprite;
+            sprite.frames.forEach(element => {
+                element.mtxPivot.rotateX(180);
+            });
+            sprite.generateByGrid(ƒ.Rectangle.GET(1425, 1125, 150, 150), 1, ƒ.Vector2.ZERO(), 200, ƒ.ORIGIN2D.BOTTOMCENTER);
+            Tiger.animations[ACTION.DIE] = sprite;
+            sprite.frames.forEach(element => {
+                element.mtxPivot.rotateX(180);
+            });
         }
         show(_action) {
             // show only the animation defined for the action
@@ -123,27 +138,58 @@ var HappyTiger;
         }
         checkCollision() {
             for (let floor of HappyTiger.level.getChildren()) {
-                let rect = floor.getRectWorld();
-                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
-                if (hit) {
-                    let translation = this.cmpTransform.local.translation;
-                    translation.y = rect.y;
-                    this.cmpTransform.local.translation = translation;
-                    this.speed.y = 0;
+                if (floor.name == "Floor") {
+                    let rect = floor.getRectWorld();
+                    let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                    if (hit) {
+                        let translation = this.cmpTransform.local.translation;
+                        translation.y = rect.y;
+                        this.cmpTransform.local.translation = translation;
+                        this.speed.y = 0;
+                    }
                 }
             }
         }
         checkCollisionCoin() {
-            for (let coin of HappyTiger.game.getChildren()) {
+            for (let coin of HappyTiger.level.getChildren()) {
                 if (coin.name == "Coin") {
                     let rect = coin.getRectCoin();
                     let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
                     if (hit) {
-                        console.log("hallo");
-                        // let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
-                        // translation.y = rect.y;
-                        // this.cmpTransform.local.translation = translation;
-                        // this.speed.y = 0;
+                        coin.cmpTransform.local.translateX(100);
+                        coincounter += 1;
+                        HappyTiger.Audio.init();
+                        HappyTiger.Audio.play("Coin");
+                        console.log(coincounter);
+                        if (coincounter == HappyTiger.coins) {
+                            let winoverlay = document.getElementById("winoverlay");
+                            winoverlay.style.display = "inline";
+                        }
+                    }
+                }
+            }
+        }
+        checkCollisionRocket() {
+            for (let rocket of HappyTiger.level.getChildren()) {
+                if (rocket.name == "Rocket") {
+                    let rect = rocket.getRectRocket();
+                    let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
+                    let test = new ƒ.Vector2(0, 0.15);
+                    let vector = this.cmpTransform.local.translation.toVector2();
+                    vector.add(test);
+                    let test2 = new ƒ.Vector2(0, -0.15);
+                    let vector2 = this.cmpTransform.local.translation.toVector2();
+                    vector2.add(test2);
+                    hit = rect.isInside(vector);
+                    hit = rect.isInside(vector2);
+                    if (hit) {
+                        console.log("rocket-hit");
+                        if (HappyTiger.restart == 0) {
+                            HappyTiger.dead = true;
+                        }
+                        else {
+                            HappyTiger.dead = false;
+                        }
                     }
                 }
             }

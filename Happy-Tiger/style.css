@@ -24,6 +24,34 @@ body{
     transform: translate(-50%, -50%);
 }
 
+#winoverlay {
+  background-image: url(/Happy-Tiger/Bilder/tiger-background.jpg);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-color: white;
+  width: 600px;
+  height: 802px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none; 
+}
+
+#looseoverlay {
+  background-image: url(/Happy-Tiger/Bilder/tiger-background.jpg);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-color: white;
+  width: 600px;
+  height: 802px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none; 
+}
+
 #game {
   text-align: center; 
 }
@@ -35,6 +63,15 @@ h2 {
   font-family: 'Recursive', sans-serif;
   margin-top: 100px;
     font-size: 50px;
+}
+
+
+h3 {
+  color: orange;
+  font-family: arial;
+  text-align: center;
+  font-family: 'Recursive', sans-serif;
+    font-size: 25px;
 }
 
 .wrapper{
@@ -52,6 +89,20 @@ h2 {
 .wrapper3{
   position: fixed;
   top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.wrapper4{
+  position: fixed;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.wrapper5{
+  position: fixed;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -96,4 +147,35 @@ a:hover:after{
   width: 100%;
 }
 
+#option-overlay{
+  background-image: url(/Happy-Tiger/Bilder/tiger-background.jpg);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-color: white;
+  width: 600px;
+  height: 802px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none; 
+}
 
+
+#anleitung-overlay{
+  background-image: url(/Happy-Tiger/Bilder/anleitung.jpg);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-color: white;
+  width: 600px;
+  height: 802px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none; 
+}
+
+.inhalt {
+  text-align: center ; 
+}

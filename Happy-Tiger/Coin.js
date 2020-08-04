@@ -46,27 +46,18 @@ var HappyTiger;
         }
         getRectCoin() {
             let rect = ƒ.Rectangle.GET(0, 0, 100, 100);
-            let topleft = new ƒ.Vector3(-0.5, 0.5, 0);
+            let topleft = new ƒ.Vector3(-0.3, 0.2, 0);
             let bottomright = new ƒ.Vector3(0.5, -0.5, 0);
             let mtxResult = ƒ.Matrix4x4.MULTIPLICATION(this.mtxWorld, Coin.pivot);
             topleft.transform(mtxResult, true);
             bottomright.transform(mtxResult, true);
-            let size = new ƒ.Vector2(bottomright.x - topleft.x, bottomright.y - topleft.y);
+            let size = new ƒ.Vector2(0.6, 0.4);
             rect.position = topleft.toVector2();
             rect.size = size;
             return rect;
         }
         checkCollision() {
-            for (let floor of HappyTiger.level.getChildren()) {
-                let rect = floor.getRectWorld();
-                let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
-                if (hit) {
-                    let translation = this.cmpTransform.local.translation;
-                    translation.y = rect.y;
-                    this.cmpTransform.local.translation = translation;
-                    this.speed.y = 0;
-                }
-            }
+            super.checkCollision();
         }
     }
     HappyTiger.Coin = Coin;

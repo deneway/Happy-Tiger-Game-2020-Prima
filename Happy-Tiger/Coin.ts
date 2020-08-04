@@ -56,14 +56,14 @@ namespace HappyTiger {
 
     public getRectCoin(): ƒ.Rectangle {
       let rect: ƒ.Rectangle = ƒ.Rectangle.GET(0, 0, 100, 100);
-      let topleft: ƒ.Vector3 = new ƒ.Vector3(-0.5, 0.5, 0);
+      let topleft: ƒ.Vector3 = new ƒ.Vector3(-0.3, 0.2, 0);
       let bottomright: ƒ.Vector3 = new ƒ.Vector3(0.5, -0.5, 0);
       
       let mtxResult: ƒ.Matrix4x4 = ƒ.Matrix4x4.MULTIPLICATION(this.mtxWorld, Coin.pivot);
       topleft.transform(mtxResult, true);
       bottomright.transform(mtxResult, true);
 
-      let size: ƒ.Vector2 = new ƒ.Vector2(bottomright.x - topleft.x, bottomright.y - topleft.y);
+      let size: ƒ.Vector2 = new ƒ.Vector2(0.6, 0.4);
       rect.position = topleft.toVector2();
       rect.size = size;
 
@@ -71,17 +71,8 @@ namespace HappyTiger {
     }
 
 
-    private checkCollision(): void {
-      for (let floor of level.getChildren()) {
-        let rect: ƒ.Rectangle = (<Floor>floor).getRectWorld();
-        let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
-        if (hit) {
-          let translation: ƒ.Vector3 = this.cmpTransform.local.translation;
-          translation.y = rect.y;
-          this.cmpTransform.local.translation = translation;
-          this.speed.y = 0;
-        }
-      }
-  }
+    public checkCollision(): void {
+      super.checkCollision();
     }
+  }
 }

@@ -16,7 +16,7 @@
 
     public static play(_id: string): void {
 
-        if (Audio.sounds[_id].id == "Coin" || Audio.sounds[_id].id == "Loose" ) {
+        if (Audio.sounds[_id].id == "Coin" || Audio.sounds[_id].id == "Loose"  || Audio.sounds[_id].id == "Coin2" ) {
              Audio.sounds[_id].volume = Audio.volEffects;}
         else if (Audio.sounds[_id].id == "Safari") {
             Audio.sounds[_id].volume = Audio.volMusic;

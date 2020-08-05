@@ -186,14 +186,25 @@ namespace HappyTiger {
       for (let coin of level.getChildren()) {
         if (coin.name == "Coin"){
         let rect: ƒ.Rectangle = (<Coin>coin).getRectCoin();
+        let check: number = 0;
         let hit: boolean = rect.isInside(this.cmpTransform.local.translation.toVector2());
         if (hit) {
 
           coin.cmpTransform.local.translateX(100);
           coincounter += 1;
-          if (coincounter <= coins){
-          Audio.init();
-          Audio.play("Coin");}
+          
+          if (coincounter <= coins && coincounter % 2 == 0){
+          Audio.play("Coin");
+          check = 1;
+          console.log("sound1");
+          }
+          
+          if (coincounter <= coins && coincounter % 2 != 0){
+          Audio.play("Coin2");
+          check = 0;
+          console.log("sound2");
+          }
+          
           if (coincounter == coins){
           let winoverlay: HTMLDivElement = <HTMLDivElement>document.getElementById("winoverlay");
           winoverlay.style.display = "inline";

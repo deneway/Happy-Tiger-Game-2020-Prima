@@ -154,13 +154,20 @@ var HappyTiger;
             for (let coin of HappyTiger.level.getChildren()) {
                 if (coin.name == "Coin") {
                     let rect = coin.getRectCoin();
+                    let check = 0;
                     let hit = rect.isInside(this.cmpTransform.local.translation.toVector2());
                     if (hit) {
                         coin.cmpTransform.local.translateX(100);
                         coincounter += 1;
-                        if (coincounter <= HappyTiger.coins) {
-                            HappyTiger.Audio.init();
+                        if (coincounter <= HappyTiger.coins && coincounter % 2 == 0) {
                             HappyTiger.Audio.play("Coin");
+                            check = 1;
+                            console.log("sound1");
+                        }
+                        if (coincounter <= HappyTiger.coins && coincounter % 2 != 0) {
+                            HappyTiger.Audio.play("Coin2");
+                            check = 0;
+                            console.log("sound2");
                         }
                         if (coincounter == HappyTiger.coins) {
                             let winoverlay = document.getElementById("winoverlay");

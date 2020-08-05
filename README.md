@@ -7,7 +7,7 @@ Repository für das Spiel "Happy Tiger" mit Fudge
 - [CODE](https://github.com/deneway/Happy-Tiger-Game-2020-Prima)
 - [DESIGNKONZEPT](https://github.com/deneway/Happy-Tiger-Game-2020-Prima/blob/master/designkonzeption-happy-tiger.pdf)
 - [ANLEITUNG](https://github.com/deneway/Happy-Tiger-Game-2020-Prima/blob/master/anleitung-happy-tiger.pdf)
-- [ARCHIV](https://github.com/deneway/Happy-Tiger-Game-2020-Prima/Archiv-Timon-Dehmer.zip)
+- [ARCHIV](https://github.com/deneway/Happy-Tiger-Game-2020-Prima/blob/master/Archiv-Timon-Dehmer.zip)
 
 
 ## Checkliste für Leistungsnachweis

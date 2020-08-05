@@ -34,7 +34,7 @@ Sobald er verliert oder gewinnt erhält er die Option über „Restart“ das Le
 |  9 | Subklassen            | In der Item.ts sind einige Eigenschaften beschrieben, die aufgrund von Überschneidungen von der Rakete in Rocket.ts und von den Münzen in Coin.ts geerbt werden.  |
 | 10 | Maße & Positionen     | Die Maße, Skala und Positionen sind alle im Größen-Verhältnis dem Tiger angepasst. Das Spiel ist im Hochformat, da der Tiger von unten nach oben springen kann.                                                                 |
 | 11 | Event-System          | Das Event-System wird verwendet. Zum Beispiel für:
-1.	Keydown Event bei der Steurung des Charakters
+1.	Keydown Event bei der Steuerung des Charakters
 2.	On-Click Events beim Klicken der Buttons im Menü
 3.	Der Sound kann mit einem Regler gesteuert werden                                                                                                                                                                                  |
 

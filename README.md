@@ -5,6 +5,8 @@ Repository für das Spiel "Happy Tiger" mit Fudge
 
 - [HAPPY TIGER](https://deneway.github.io/Happy-Tiger-Game-2020-Prima/Happy-Tiger/index.html)
 - [CODE](https://github.com/deneway/Happy-Tiger-Game-2020-Prima)
+- [DESIGNKONZEPT] (https://github.com/deneway/Happy-Tiger-Game-2020-Prima/blob/master/designkonzeption-happy-tiger.pdf)
+- [Anleitung] (https://github.com/deneway/Happy-Tiger-Game-2020-Prima/blob/master/anleitung-happy-tiger.pdf)
 - [ARCHIV](https://github.com/deneway/Happy-Tiger-Game-2020-Prima/Archiv-Timon-Dehmer.zip)
 
 
@@ -22,11 +24,10 @@ Repository für das Spiel "Happy Tiger" mit Fudge
 |  4 | Szenenhierarchie      | Level ist Child von Game. Der Tiger, die Raketen, Münzen, Floors und der Hintergrund sind Kinder von Level. Somit ist gewährleistet, dass zum Beispiel verschiedene Level erstellt werden könnten.                                                                                                                                                       |
 |  5 | Sound                 | Es ist eine Hintergrundmusik eingebunden. Zudem werden Soundeffekte beim Einsammeln von Münzen abgespielt und, wenn man von einer Rakete getroffen wird.                                                          |
 |  6 | GUI                   | Der User kann durch das GUI am Beginn folgende Optionen wählen. 
-1.	Er startet direkt das Spiel über „Start“.
-2.	Er wählt „Optionen“ und kann die Lautstärke der Musik und Soundeffekte regulieren.
-3.	Er geht auf Anleitung um zu erfahren, wie er den Tiger steuert.
-Sobald er verliert oder gewinnt erhält er die Option über „Restart“ das Level neu zu laden und noch einmal zu spielen. 
-|
+	1. Er startet direkt das Spiel über „Start“.
+	2. Er wählt „Optionen“ und kann die Lautstärke der Musik und Soundeffekte regulieren.
+	3. Er geht auf Anleitung um zu erfahren, wie er den Tiger steuert.
+Sobald er verliert oder gewinnt erhält er die Option über „Restart“ das Level neu zu laden und noch einmal zu spielen. |
 |  7 | Externe Daten         | Über die „data.json“ kann extern ein Spielparameter verändert werden. So kann die Anzahl der Coins in der Datei definiert werden. Die Anzahl an Coins die angegeben ist wird im Spiel generiert.                                                                                  |
 |  8 | Verhaltensklassen     | Jedes Objekt im Spiel hat eine eigene Klasse. So ist das Verhalten des Tigers in „Tiger.ts“ definiert. Andere Verhaltensklassen:
 •	Rakete -> Rocket.ts
@@ -34,9 +35,9 @@ Sobald er verliert oder gewinnt erhält er die Option über „Restart“ das Le
 |  9 | Subklassen            | In der Item.ts sind einige Eigenschaften beschrieben, die aufgrund von Überschneidungen von der Rakete in Rocket.ts und von den Münzen in Coin.ts geerbt werden.  |
 | 10 | Maße & Positionen     | Die Maße, Skala und Positionen sind alle im Größen-Verhältnis dem Tiger angepasst. Das Spiel ist im Hochformat, da der Tiger von unten nach oben springen kann.                                                                 |
 | 11 | Event-System          | Das Event-System wird verwendet. Zum Beispiel für:
-1.	Keydown Event bei der Steuerung des Charakters
-2.	On-Click Events beim Klicken der Buttons im Menü
-3.	Der Sound kann mit einem Regler gesteuert werden                                                                                                                                                                                  |
+    1  Keydown Event bei der Steuerung des Charakters
+    2. On-Click Events beim Klicken der Buttons im Menü
+    3. Der Sound kann mit einem Regler gesteuert werden        |
 
 ## Abgabeformat
 * Fasse die Konzeption als ein wohlformatiertes Designdokument in PDF zusammen!

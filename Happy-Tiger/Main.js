@@ -13,13 +13,15 @@ var HappyTiger;
     let background;
     let data;
     //JSON-Daten
-    let floors = 4;
+    let floors = HappyTiger.ƒ.Random.default.getRangeFloored(4, 7);
     HappyTiger.coins = 10;
     function start() {
         let startBtn = document.getElementById("start");
         startBtn.addEventListener("click", startGame);
-        let restartBtn = document.getElementById("restart2");
+        let restartBtn = document.getElementById("restart");
         restartBtn.addEventListener("click", restartGame);
+        let restartBtn2 = document.getElementById("restart2");
+        restartBtn2.addEventListener("click", restartGame);
         let optionBtn = document.getElementById("optionen");
         optionBtn.addEventListener("click", optionMenue);
         let anleitungBtn = document.getElementById("anleitung");

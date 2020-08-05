@@ -18,7 +18,7 @@ namespace HappyTiger {
 
 
   //JSON-Daten
-  let floors: number = 4;
+  let floors: number = ƒ.Random.default.getRangeFloored(4,7);
   export let coins: number = 10;
   
 
@@ -26,8 +26,10 @@ namespace HappyTiger {
   function start(){
       let startBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("start");
       startBtn.addEventListener("click", startGame);
-      let restartBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("restart2");
+      let restartBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("restart");
       restartBtn.addEventListener("click", restartGame);
+      let restartBtn2: HTMLDivElement = <HTMLDivElement>document.getElementById("restart2");
+      restartBtn2.addEventListener("click", restartGame);
       let optionBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("optionen");
       optionBtn.addEventListener("click", optionMenue);
       let anleitungBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("anleitung");

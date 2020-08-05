@@ -9,6 +9,10 @@ Repository für das Spiel "Happy Tiger" mit Fudge
 - [ANLEITUNG](https://github.com/deneway/Happy-Tiger-Game-2020-Prima/blob/master/anleitung-happy-tiger.pdf)
 - [ARCHIV](https://github.com/deneway/Happy-Tiger-Game-2020-Prima/blob/master/Archiv-Timon-Dehmer.zip)
 
+## ACHTUNG
+
+Ich habe bemerkt, dass das Spiel auf anderen Rechner teils nicht richtig funktioniert. Ich arbeite mit einem neuen Mac Book Pro, welches einen 4K Bildschirm besitzt. Die Sprides werden bei mir genau richtig und perfekt dargestellt. Einen anderen Grund, warum es auf anderen Rechnern nicht funktioniert fällt mir keiner ein. Am besten wäre es natürlich, wenn es bei Ihnen ganz normal läuft. Bei mir hat am Ende alles perfekt geklappt. Ich habe eine Bildschirmaufnahme gemacht und es auf YouTube hochgeladen. Gerne kann ich Ihnen auch Live über Teamviewer mein Spiel präsentieren sollte Ihnen der Code und das Spiel nicht ausreichen.   
+https://www.youtube.com/watch?v=O4W2brpA9rE&feature=youtu.be
 
 ## Checkliste für Leistungsnachweis
 © Prof. Dipl.-Ing. Jirka R. Dell'Oro-Friedl, HFU

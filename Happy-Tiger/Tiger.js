@@ -158,12 +158,14 @@ var HappyTiger;
                     if (hit) {
                         coin.cmpTransform.local.translateX(100);
                         coincounter += 1;
-                        HappyTiger.Audio.init();
-                        HappyTiger.Audio.play("Coin");
-                        console.log(coincounter);
+                        if (coincounter <= HappyTiger.coins) {
+                            HappyTiger.Audio.init();
+                            HappyTiger.Audio.play("Coin");
+                        }
                         if (coincounter == HappyTiger.coins) {
                             let winoverlay = document.getElementById("winoverlay");
                             winoverlay.style.display = "inline";
+                            HappyTiger.game.removeChild(HappyTiger.level);
                         }
                     }
                 }
@@ -183,6 +185,8 @@ var HappyTiger;
                     hit = rect.isInside(vector);
                     hit = rect.isInside(vector2);
                     if (hit) {
+                        HappyTiger.Audio.init();
+                        HappyTiger.Audio.play("Loose");
                         console.log("rocket-hit");
                         if (HappyTiger.restart == 0) {
                             HappyTiger.dead = true;

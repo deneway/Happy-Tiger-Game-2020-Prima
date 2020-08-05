@@ -1,0 +1,7 @@
+[{
+    "standard":{
+        "parameters":[
+        {"objectName" : "Coins",  "anzahl" : 10}
+        ]
+    }
+}]

@@ -5,7 +5,6 @@
     export class Audio {
     public static volMusic: number = 0.3;
     public static volEffects: number = 0.1;
-    public static volEnvironment: number = 0.1;
     private static sounds: Sounds = {};
 
     public static init(): void {
@@ -17,14 +16,11 @@
 
     public static play(_id: string): void {
 
-        // if (Audio.sounds[_id].id == "WalkOnGrass" || Audio.sounds[_id].id == "Sword" || Audio.sounds[_id].id == "Slurp") {
-        //     Audio.sounds[_id].volume = Audio.volEffects;
-        if (Audio.sounds[_id].id == "Safari") {
+        if (Audio.sounds[_id].id == "Coin" || Audio.sounds[_id].id == "Loose" ) {
+             Audio.sounds[_id].volume = Audio.volEffects;}
+        else if (Audio.sounds[_id].id == "Safari") {
             Audio.sounds[_id].volume = Audio.volMusic;
         } 
-        // else if (Audio.sounds[_id].id == "Wind") {
-        //     Audio.sounds[_id].volume = Audio.volEnvironment;
-        // }
         Audio.sounds[_id].play();
     }
 

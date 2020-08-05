@@ -13,15 +13,15 @@ namespace HappyTiger {
   let coin: Coin;
   let rocket: Rocket;
   let dolly: ƒ.Vector3 = ƒ.Vector3.ZERO();
+  let background: Background;
+  let data: Object[];
+
 
   //JSON-Daten
   let floors: number = 4;
   export let coins: number = 10;
   
-  //GUI
-  function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  } 
+
 
   function start(){
       let startBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("start");
@@ -32,34 +32,31 @@ namespace HappyTiger {
       optionBtn.addEventListener("click", optionMenue);
       let anleitungBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("anleitung");
       anleitungBtn.addEventListener("click", anleitungMenue);
-      let leichterBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("leichter");
-      leichterBtn.addEventListener("click", leichter);
-      let schwererBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("schwerer");
-      schwererBtn.addEventListener("click", schwerer);
+      let volumeSliderMusic: HTMLInputElement = <HTMLInputElement>document.getElementById("music");
+      volumeSliderMusic.addEventListener("click", VolumeMusic);
+      let volumeSliderEnvironment: HTMLInputElement = <HTMLInputElement>document.getElementById("effects");
+      volumeSliderEnvironment.addEventListener("click", VolumeEffects);
+      // let leichterBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("leichter");
+      // leichterBtn.addEventListener("click", leichter);
+      // let schwererBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("schwerer");
+      // schwererBtn.addEventListener("click", schwerer);
       
   }
 
-  function leichter(){
-    restart = 1; 
-    level.removeChild(tiger);
-    level.removeChild(game);
-   
-    game.removeChild(level);
-    floors = floors - 1;
-    dead = false;
-    game.appendChild(level);
-    let looseoverlay: HTMLDivElement = <HTMLDivElement>document.getElementById("looseoverlay");
-    looseoverlay.style.display = "none";
-    let overlay: HTMLDivElement = <HTMLDivElement>document.getElementById("overlay");
-    overlay.style.display = "none";
-    
+  function VolumeMusic(): void {
+    let volumeSlider: HTMLInputElement = <HTMLInputElement>document.getElementById("music");
+    let value: number = parseInt(volumeSlider.value);
+    Audio.volMusic = value / 100;
+    Audio.play("Safari");
   }
 
-  function schwerer(){
-    floors = floors + 1;
-    
-
+  function VolumeEffects(): void {
+    let volumeSlider: HTMLInputElement = <HTMLInputElement>document.getElementById("effects");
+    let value: number = parseInt(volumeSlider.value);
+    Audio.volEffects = value / 100;
   }
+
+
 
   async function startGame(){
     console.log("startgame");
@@ -77,6 +74,8 @@ namespace HappyTiger {
   }
 
   function optionMenue(){
+    Audio.init();
+    Audio.play("Safari");
     let backBtn: HTMLDivElement = <HTMLDivElement>document.getElementById("zurueck");
     backBtn.addEventListener("click", backMenue);
     let overlay: HTMLDivElement = <HTMLDivElement>document.getElementById("overlay");
@@ -105,22 +104,30 @@ namespace HappyTiger {
   }
 
   function test(): void {
+    loadjson();
     let canvas: HTMLCanvasElement = document.querySelector("canvas");
     let crc2: CanvasRenderingContext2D = canvas.getContext("2d");
     let img: HTMLImageElement = document.querySelector("img");
     let spritesheet: ƒ.CoatTextured = ƒAid.createSpriteSheet("Tiger", img);
+    let backgroundimage: HTMLImageElement = <HTMLImageElement>document.getElementById("background");
+    let ssbackground: ƒ.CoatTextured = ƒAid.createSpriteSheet("Background", backgroundimage);
     Tiger.generateSprites(spritesheet);
     Coin.generateSprites(spritesheet);
     Rocket.generateSprites(spritesheet);
+    Background.generateSprites(ssbackground);
     
 
     game = new ƒ.Node("Game");
     tiger = new Tiger("Tiger");
     tiger.cmpTransform.local.translateY(-3.6);
     tiger.cmpTransform.local.translateX(-2.5);
-    coin = new Coin("Coin");
+    background = new Background("Background");
+    background.mtxLocal.translateY(-3.6);
+    //level.appendChild(background);
     level = createLevel();
     game.appendChild(level);
+    
+    coin = new Coin("Coin");
     
 
     
@@ -130,6 +137,8 @@ namespace HappyTiger {
       coin.cmpTransform.local.translateX(-2.47+(5.5/coins)*(i));
       level.appendChild(coin);
     }
+
+    level.appendChild(background);
 
     let cmpCamera: ƒ.ComponentCamera = new ƒ.ComponentCamera();
     cmpCamera.pivot.translateZ(8);
@@ -154,10 +163,21 @@ namespace HappyTiger {
       //cmpCamera.pivot.translateX(0);
       viewport.draw();
       deadproof();
-
+      let soundcoin: HTMLAudioElement = <HTMLAudioElement>document.getElementById("Coin");
+      let winoverlay: HTMLDivElement = <HTMLDivElement>document.getElementById("winoverlay");
+      if (winoverlay.style.display == "inline"){
+        soundcoin.remove;
+      }
       
     }
   }
+
+  async function loadjson(): Promise<void> {
+    let response: Response = await fetch("data.json");
+    let offer: string = await response.text();
+    data = JSON.parse(offer);
+}
+
 
   function handleKeyboard(_event: ƒ.EventKeyboard): void {
     if (_event.code == ƒ.KEYBOARD_CODE.SPACE)
@@ -189,14 +209,26 @@ namespace HappyTiger {
     if (dead == true){
         
         setTimeout(function(){ 
-          let looseoverlay: HTMLDivElement = <HTMLDivElement>document.getElementById("looseoverlay");
-        looseoverlay.style.display = "inline"; }, 3000);
+        let looseoverlay: HTMLDivElement = <HTMLDivElement>document.getElementById("looseoverlay");
+        looseoverlay.style.display = "inline"; }, 500);
+        tiger.mtxLocal.translateX(100);
     }
   }
 
   function createLevel(): ƒ.Node {
     
     let level: ƒ.Node = new ƒ.Node("Level");
+
+    //Json Data
+    for (let i: number = 0; i < data[0].standard.parameters.length; i++) {
+      let object = data[0].standard.parameters[i];
+      switch (object.objectName) {
+        case "Coin":
+          coins = object.anzahl;
+          break;
+    }
+   }
+
     let floor: Floor = new Floor();
     
     floor = new Floor();
@@ -212,22 +244,25 @@ namespace HappyTiger {
     floor.cmpTransform.local.rotateX(90);
     level.appendChild(floor);
 
-   
-
-
+  
     for (let i: number = 0; i < floors+1; i++) {
     let floorescape: number = ƒ.Random.default.getRange(0.5,-0.5);
      //coin.mtxLocal.translation = new ƒ.Vector3(ƒ.Random.default.getRange(-1.6, 1.6) 
     floor = new Floor();
+    if (i<floors){
     rocket = new Rocket();
+    rocket.cmpTransform.local.translateY(-3.6+(6/floors)*(i+1));
+    rocket.act(ACTION.ROCKET);
+    level.appendChild(rocket);
+    }
+
     floor.cmpTransform.local.translateY(-3.6+(6/floors)*i);
     floor.cmpTransform.local.scaleY(0.2);
     floor.cmpTransform.local.scaleX(5);
     floor.cmpTransform.local.translateX(-0.57+(floorescape));
-    rocket.cmpTransform.local.translateY(-3.6+(6/floors)*(i+1));
     level.appendChild(floor);
-    level.appendChild(rocket);
-    rocket.act(ACTION.ROCKET);
+    
+    
 
     floor = new Floor();
     floor.cmpTransform.local.translateY(-3.6+(6/floors)*i);

@@ -7,6 +7,8 @@
   <title>PRIMA Abgabe SS2020</title>
   <script src="../FudgeCore/FudgeCore.js"></script>
   <script src="../FudgeAid/FudgeAid.js"></script>
+  <script type="text/javascript" src="data.json"></script>
+  <script src="background.js"></script>
   <script src="audio.js"></script>
   <script src="item.js"></script>
   <script src="Coin.js"></script>
@@ -39,9 +41,9 @@
     <div class="inhalt">
     <h2>Optionen</h2>
     <h3 class="center">Volume Music</h3>
-    <input class ="center" type="range" min="0" max="10" value="5" class="slider" id="myRange">
+    <input id="music" class ="center" type="range" min="0" max="100" value="50" class="slider" id="myRange">
     <h3 class = "center">Volume Sound</h3>
-    <input class="center" type="range" min="0" max="10" value="5" class="slider" id="myRange">
+    <input id="effects" class="center" type="range" min="0" max="100" value="50" class="slider" id="myRange">
     </div>
     <div class="wrapper4">
       <a id="zurueck"><span>Zurück</span></a>
@@ -55,9 +57,7 @@
   </div>
   <div id="winoverlay">
     <h2>DU HAST GEWONNEN!</h2>
-    <div class="wrapper">
-      <a id="schwieriger"><span>Schwieriger</span></a>
-    </div>
+ 
     <div class="wrapper2">
       <a id="restart"><span>Restart</span></a>
     </div>
@@ -67,17 +67,17 @@
     <div class="wrapper">
       <a id="restart2"><span>Restart</span></a>
     </div>
-    <div class="wrapper2">
-      <a id="leichter"><span>Leichter</span></a>
-    </div>
   </div>
   <div id="game">
   <canvas width="600" height="800" style="background-color: aliceblue;"></canvas>
   <img src="Bilder/happytiger-spride.png" style="display: none;"/>
+  <img id="background" src="Bilder/hintergrund-image-2.jpg" style="display: none;"/>
   <img id="dirt" src="Bilder/Dirt.png" style="display: none;"/>
   </div>
   </div>
   <audio id="Safari" src="Audio/African Safari Loop.wav" type="audio/mpeg"></audio>
   <audio id="Coin" src="Audio/Coin-Sound.mp3" type="audio/mpeg"></audio>
+  <audio id="Coin2" src="Audio/Coin-Sound.mp3" type="audio/mpeg"></audio>
+  <audio id="Loose" src="Audio/loose-sound.wav" type="audio/mpeg"></audio>
 </body>
 </html>

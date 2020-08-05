@@ -191,12 +191,13 @@ namespace HappyTiger {
 
           coin.cmpTransform.local.translateX(100);
           coincounter += 1;
+          if (coincounter <= coins){
           Audio.init();
-          Audio.play("Coin");
-          console.log(coincounter);
+          Audio.play("Coin");}
           if (coincounter == coins){
           let winoverlay: HTMLDivElement = <HTMLDivElement>document.getElementById("winoverlay");
           winoverlay.style.display = "inline";
+          game.removeChild(level);
           
           } 
         }
@@ -219,10 +220,12 @@ namespace HappyTiger {
       hit = rect.isInside(vector2);
       
       if (hit) {
-
+        Audio.init();
+        Audio.play("Loose");
         console.log("rocket-hit");
         if (restart == 0){
         dead = true; 
+
         }
         else {
           dead = false;

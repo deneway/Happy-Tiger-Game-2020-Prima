@@ -9,7 +9,7 @@ namespace HappyTiger {
   setTimeout(function(){ 
   test();
   start();
-  }, 500);
+  }, 3000);
 
   export let game: ƒ.Node;
   export let level: ƒ.Node;

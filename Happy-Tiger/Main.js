@@ -8,7 +8,7 @@ var HappyTiger;
     setTimeout(function () {
         test();
         start();
-    }, 500);
+    }, 3000);
     HappyTiger.restart = 0;
     let tiger;
     let coin;

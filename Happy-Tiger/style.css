@@ -12,7 +12,7 @@ body{
 }
 
 #overlay {
-    background-image: url(/Bilder/tiger-background.jpg);
+    background-image: url(Bilder/tiger-background.jpg);
     background-position: bottom;
     background-repeat: no-repeat;
     background-color: white;
@@ -25,7 +25,7 @@ body{
 }
 
 #winoverlay {
-  background-image: url(/Bilder/tiger-background.jpg);
+  background-image: url(Bilder/tiger-background.jpg);
   background-position: bottom;
   background-repeat: no-repeat;
   background-color: white;
@@ -39,7 +39,7 @@ body{
 }
 
 #looseoverlay {
-  background-image: url(/Bilder/tiger-background.jpg);
+  background-image: url(Bilder/tiger-background.jpg);
   background-position: bottom;
   background-repeat: no-repeat;
   background-color: white;
@@ -148,7 +148,7 @@ a:hover:after{
 }
 
 #option-overlay{
-  background-image: url(/Bilder/tiger-background.jpg);
+  background-image: url(Bilder/tiger-background.jpg);
   background-position: bottom;
   background-repeat: no-repeat;
   background-color: white;
@@ -163,7 +163,7 @@ a:hover:after{
 
 
 #anleitung-overlay{
-  background-image: url(/Happy-Tiger/Bilder/anleitung.jpg);
+  background-image: url(Bilder/anleitung.jpg);
   background-position: bottom;
   background-repeat: no-repeat;
   background-color: white;

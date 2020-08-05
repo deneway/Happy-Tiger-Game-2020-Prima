@@ -182,14 +182,14 @@ var HappyTiger;
     function createLevel() {
         let level = new HappyTiger.ƒ.Node("Level");
         //Json Data
-        for (let i = 0; i < data[0].standard.parameters.length; i++) {
-            let object = data[0].standard.parameters[i];
-            switch (object.objectName) {
-                case "Coin":
-                    HappyTiger.coins = object.anzahl;
-                    break;
-            }
-        }
+        //   for (let i: number = 0; i < data[0].standard.parameters.length; i++) {
+        //     let object = data[0].standard.parameters[i];
+        //     switch (object.objectName) {
+        //       case "Coin":
+        //         coins = object.anzahl;
+        //         break;
+        //   }
+        //  }
         let floor = new HappyTiger.Floor();
         floor = new HappyTiger.Floor();
         floor.cmpTransform.local.translateY(-3.6);

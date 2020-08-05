@@ -3,8 +3,13 @@ namespace HappyTiger {
   export import ƒ = FudgeCore;
   export import ƒAid = FudgeAid;
 
-  window.addEventListener("load", test);
-  window.addEventListener("load", start);
+  let data: Object[];
+  window.addEventListener("load", loadjson);
+
+  setTimeout(function(){ 
+  test();
+  start();
+  }, 500);
 
   export let game: ƒ.Node;
   export let level: ƒ.Node;
@@ -14,12 +19,12 @@ namespace HappyTiger {
   let rocket: Rocket;
   let dolly: ƒ.Vector3 = ƒ.Vector3.ZERO();
   let background: Background;
-  let data: Object[];
+
 
 
   //JSON-Daten
   let floors: number = ƒ.Random.default.getRangeFloored(4,7);
-  export let coins: number = 10;
+  export let coins: number;
   
 
 
@@ -106,7 +111,7 @@ namespace HappyTiger {
   }
 
   function test(): void {
-    loadjson();
+    
     let canvas: HTMLCanvasElement = document.querySelector("canvas");
     let crc2: CanvasRenderingContext2D = canvas.getContext("2d");
     let img: HTMLImageElement = document.querySelector("img");
@@ -129,16 +134,7 @@ namespace HappyTiger {
     level = createLevel();
     game.appendChild(level);
     
-    coin = new Coin("Coin");
-    
-
-    
-    for (let i: number = 0; i < coins; i++) {
-      let coin: Coin = new Coin();
-      coin.cmpTransform.local.translateY(ƒ.Random.default.getRange(-2,4));
-      coin.cmpTransform.local.translateX(-2.47+(5.5/coins)*(i));
-      level.appendChild(coin);
-    }
+  
 
     level.appendChild(background);
 
@@ -220,16 +216,26 @@ namespace HappyTiger {
   function createLevel(): ƒ.Node {
     
     let level: ƒ.Node = new ƒ.Node("Level");
+    console.log(data);
 
     //Json Data
-  //   for (let i: number = 0; i < data[0].standard.parameters.length; i++) {
-  //     let object = data[0].standard.parameters[i];
-  //     switch (object.objectName) {
-  //       case "Coin":
-  //         coins = object.anzahl;
-  //         break;
-  //   }
-  //  }
+    for (let i: number = 0; i < data[0].standard.parameters.length; i++) {
+      let object = data[0].standard.parameters[i];
+      switch (object.objectName) {
+        case "Coins":
+          coins = object.anzahl;
+          break;
+    }
+   }
+
+   coin = new Coin("Coin");
+   console.log(coins);
+   for (let i: number = 0; i < coins; i++) {
+     let coin: Coin = new Coin();
+     coin.cmpTransform.local.translateY(ƒ.Random.default.getRange(-2,4));
+     coin.cmpTransform.local.translateX(-2.47+(5.5/coins)*(i));
+     level.appendChild(coin);
+   }
 
     let floor: Floor = new Floor();
     

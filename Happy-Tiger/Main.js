@@ -3,18 +3,20 @@ var HappyTiger;
 (function (HappyTiger) {
     HappyTiger.ƒ = FudgeCore;
     HappyTiger.ƒAid = FudgeAid;
-    window.addEventListener("load", test);
-    window.addEventListener("load", start);
+    let data;
+    window.addEventListener("load", loadjson);
+    setTimeout(function () {
+        test();
+        start();
+    }, 500);
     HappyTiger.restart = 0;
     let tiger;
     let coin;
     let rocket;
     let dolly = HappyTiger.ƒ.Vector3.ZERO();
     let background;
-    let data;
     //JSON-Daten
     let floors = HappyTiger.ƒ.Random.default.getRangeFloored(4, 7);
-    HappyTiger.coins = 10;
     function start() {
         let startBtn = document.getElementById("start");
         startBtn.addEventListener("click", startGame);
@@ -87,7 +89,6 @@ var HappyTiger;
         anleitungoverlay.style.display = "none";
     }
     function test() {
-        loadjson();
         let canvas = document.querySelector("canvas");
         let crc2 = canvas.getContext("2d");
         let img = document.querySelector("img");
@@ -107,13 +108,6 @@ var HappyTiger;
         //level.appendChild(background);
         HappyTiger.level = createLevel();
         HappyTiger.game.appendChild(HappyTiger.level);
-        coin = new HappyTiger.Coin("Coin");
-        for (let i = 0; i < HappyTiger.coins; i++) {
-            let coin = new HappyTiger.Coin();
-            coin.cmpTransform.local.translateY(HappyTiger.ƒ.Random.default.getRange(-2, 4));
-            coin.cmpTransform.local.translateX(-2.47 + (5.5 / HappyTiger.coins) * (i));
-            HappyTiger.level.appendChild(coin);
-        }
         HappyTiger.level.appendChild(background);
         let cmpCamera = new HappyTiger.ƒ.ComponentCamera();
         cmpCamera.pivot.translateZ(8);
@@ -183,15 +177,24 @@ var HappyTiger;
     }
     function createLevel() {
         let level = new HappyTiger.ƒ.Node("Level");
+        console.log(data);
         //Json Data
-        //   for (let i: number = 0; i < data[0].standard.parameters.length; i++) {
-        //     let object = data[0].standard.parameters[i];
-        //     switch (object.objectName) {
-        //       case "Coin":
-        //         coins = object.anzahl;
-        //         break;
-        //   }
-        //  }
+        for (let i = 0; i < data[0].standard.parameters.length; i++) {
+            let object = data[0].standard.parameters[i];
+            switch (object.objectName) {
+                case "Coins":
+                    HappyTiger.coins = object.anzahl;
+                    break;
+            }
+        }
+        coin = new HappyTiger.Coin("Coin");
+        console.log(HappyTiger.coins);
+        for (let i = 0; i < HappyTiger.coins; i++) {
+            let coin = new HappyTiger.Coin();
+            coin.cmpTransform.local.translateY(HappyTiger.ƒ.Random.default.getRange(-2, 4));
+            coin.cmpTransform.local.translateX(-2.47 + (5.5 / HappyTiger.coins) * (i));
+            level.appendChild(coin);
+        }
         let floor = new HappyTiger.Floor();
         floor = new HappyTiger.Floor();
         floor.cmpTransform.local.translateY(-3.6);

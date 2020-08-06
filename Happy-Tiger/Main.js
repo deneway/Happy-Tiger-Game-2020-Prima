@@ -4,11 +4,13 @@ var HappyTiger;
     HappyTiger.ƒ = FudgeCore;
     HappyTiger.ƒAid = FudgeAid;
     let data;
-    window.addEventListener("load", loadjson);
-    setTimeout(function () {
-        test();
-        start();
-    }, 3000);
+    //window.addEventListener("load", loadjson);
+    window.addEventListener("load", test);
+    window.addEventListener("load", start);
+    //setTimeout(function () {
+    //    test();
+    //    start();
+    //}, 0);
     HappyTiger.restart = 0;
     let tiger;
     let coin;
@@ -179,14 +181,14 @@ var HappyTiger;
         let level = new HappyTiger.ƒ.Node("Level");
         console.log(data);
         //Json Data
-        for (let i = 0; i < data[0].standard.parameters.length; i++) {
-            let object = data[0].standard.parameters[i];
-            switch (object.objectName) {
-                case "Coins":
-                    HappyTiger.coins = object.anzahl;
-                    break;
-            }
-        }
+        //for (let i = 0; i < data[0].standard.parameters.length; i++) {
+        //    let object = data[0].standard.parameters[i];
+        //    switch (object.objectName) {
+        //        case "Coins":
+        //            HappyTiger.coins = object.anzahl;
+        //            break;
+        //    }
+        //}
         coin = new HappyTiger.Coin("Coin");
         console.log(HappyTiger.coins);
         for (let i = 0; i < HappyTiger.coins; i++) {
